@@ -3,184 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GrammarFix — Free Grammar Checker</title>
+<title>GrammarFix — Free Grammar & Writing Assistant</title>
 <style>
-:root{--ink:#172033;--muted:#667085;--line:#e5e9f0;--bg:#f5f7fb;--blue:#315efb;--green:#16845b}
+:root{--ink:#172033;--muted:#667085;--line:#e5e9f0;--bg:#f5f7fb;--blue:#315efb;--green:#16845b;--panel:#fff}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-header{background:#fff;border-bottom:1px solid var(--line);padding:18px 24px}
-.wrap{max-width:980px;margin:0 auto}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);padding:17px 24px}
+.wrap{max-width:1050px;margin:0 auto}
 .brand{font-size:22px;font-weight:800;letter-spacing:-.5px}.brand span{color:var(--blue)}
-main{padding:52px 20px}
-.hero{text-align:center;margin-bottom:30px}
-.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.1;margin:0 0 12px;letter-spacing:-1.4px}
+nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-top:5px}
+.hero{text-align:center;padding:43px 18px 28px}
+.hero h1{font-size:clamp(30px,5vw,45px);line-height:1.12;margin:0 0 12px;letter-spacing:-1.3px}
 .hero p{color:var(--muted);margin:0}
-.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 12px 35px rgba(22,34,60,.06)}
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+main{padding:0 18px 42px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 12px 35px rgba(22,34,60,.06)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:13px}
 label{font-weight:650;font-size:14px}
-select,button{font:inherit;border-radius:10px;padding:10px 14px}
+select,button{font:inherit;border-radius:10px;padding:10px 13px}
 select{border:1px solid var(--line);background:#fff;color:var(--ink)}
-textarea{width:100%;min-height:220px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:16px;font:16px/1.6 inherit;color:var(--ink);outline:none}
+textarea{width:100%;min-height:230px;resize:vertical;border:1px solid var(--line);border-radius:12px;padding:16px;font:16px/1.65 inherit;color:var(--ink);outline:none}
 textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(49,94,251,.1)}
 .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
 button{border:0;cursor:pointer;font-weight:650}
-.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.55;cursor:wait}
-.secondary{background:#eef2ff;color:#2948b8}
+button:disabled{opacity:.55;cursor:wait}
+.primary{background:var(--blue);color:#fff}.secondary{background:#eef2ff;color:#2948b8}.quiet{background:#f2f4f7;color:#344054}
 .status{font-size:13px;color:var(--muted);margin-left:auto}
-.result{margin-top:22px;display:none}
+.stats{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:10px}
+.result{margin-top:24px;display:none}
 .result h2{font-size:19px;margin:0 0 12px}
-.corrected{background:#f2fbf6;border:1px solid #ccebd9;border-radius:12px;padding:16px;white-space:pre-wrap;overflow-wrap:anywhere}
-.issue{border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin:10px 0}
+.corrected{background:#f2fbf6;border:1px solid #ccebd9;border-radius:12px;padding:16px;white-space:pre-wrap;overflow-wrap:anywhere;min-height:64px}
+.issue{border:1px solid var(--line);border-radius:12px;padding:14px 15px;margin:10px 0}
 .issue strong{display:block;margin-bottom:4px}
 .issue p{margin:0;color:var(--muted);font-size:14px}
 .suggestion{display:inline-block;margin:8px 6px 0 0;background:#eef2ff;color:#2948b8;border:0;border-radius:7px;padding:5px 9px;font-size:13px}
+.pill{display:inline-block;border-radius:99px;background:#edf7f2;color:#13734e;padding:4px 9px;font-size:12px;font-weight:650}
+.info{background:#f8f9fc;border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-top:18px;color:var(--muted);font-size:13px}
 .note{color:var(--muted);font-size:12px;margin-top:16px}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
 a{color:var(--blue)}
-@media(max-width:600px){main{padding:32px 14px}.panel{padding:16px}.status{width:100%;margin-left:0}}
+@media(max-width:600px){.hero{padding-top:32px}.panel{padding:16px}.status{width:100%;margin-left:0}header{padding:15px 18px}}
 </style>
 </head>
 <body>
-<header><div class="wrap brand">Grammar<span>Fix</span></div></header>
+<header>
+  <div class="wrap">
+    <div class="brand">Grammar<span>Fix</span> <span class="pill">Free</span></div>
+    <nav><span>Grammar checker</span><span>Professional proofreading</span><span>Writing statistics</span></nav>
+  </div>
+</header>
+<section class="hero">
+  <h1>Write better. Communicate clearly.</h1>
+  <p>Check your English grammar, spelling, and punctuation.</p>
+</section>
 <main class="wrap">
-  <section class="hero">
-    <h1>Write better. Communicate clearly.</h1>
-    <p>Check your English grammar, spelling, and punctuation in seconds.</p>
-  </section>
-  <section class="panel">
-    <div class="toolbar">
-      <label for="text">Enter your text</label>
+<section class="panel">
+  <div class="toolbar">
+    <label for="text">Enter your text</label>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <select id="mode" aria-label="Writing mode">
+        <option value="general">General writing</option>
+        <option value="professional">Professional proofreading</option>
+        <option value="government">Government / technical documents</option>
+      </select>
       <select id="language" aria-label="English variant">
         <option value="en-US">English (US)</option>
         <option value="en-GB">English (UK)</option>
-        <option value="auto">Detect language</option>
       </select>
     </div>
-    <textarea id="text" maxlength="20000" placeholder="Type or paste your sentences here..."></textarea>
-    <div class="toolbar" style="margin:8px 0 0">
-      <span id="count" class="note">0 / 20,000 characters</span>
-      <span class="note">Please do not enter confidential or sensitive information.</span>
-    </div>
+  </div>
+  <textarea id="text" maxlength="20000" placeholder="Type or paste your sentences, reports, letters, or other documents here..."></textarea>
+  <div class="stats">
+    <span id="words">Words: 0</span>
+    <span id="chars">Characters: 0 / 20,000</span>
+    <span id="sentences">Sentences: 0</span>
+  </div>
+  <div class="actions">
+    <button class="primary" id="check">Check writing</button>
+    <button class="secondary" id="clear">Clear</button>
+    <span class="status" id="status" role="status"></span>
+  </div>
+  <div class="result" id="result">
+    <h2>Corrected text</h2>
+    <div class="corrected" id="corrected"></div>
     <div class="actions">
-      <button class="primary" id="check">Check grammar</button>
-      <button class="secondary" id="clear">Clear</button>
-      <span class="status" id="status" role="status"></span>
+      <button class="primary" id="copy">Copy corrected text</button>
+      <button class="secondary" id="replace">Use corrected text</button>
+      <button class="quiet" id="download">Download .txt</button>
     </div>
-    <section class="result" id="result">
-      <h2>Corrected text</h2>
-      <div class="corrected" id="corrected"></div>
-      <div class="actions">
-        <button class="primary" id="copy">Copy corrected text</button>
-        <button class="secondary" id="replace">Use corrected text</button>
-      </div>
-      <h2 style="margin-top:24px">Suggestions</h2>
-      <div id="issues"></div>
-    </section>
-    <p class="note">Grammar checking is provided by <a href="https://languagetool.org" target="_blank" rel="noopener">LanguageTool</a>. Suggestions may not always fit your intended meaning. Review changes before using them.</p>
-  </section>
+    <h2 style="margin-top:26px">Grammar explanations and suggestions</h2>
+    <div id="issues"></div>
+  </div>
+  <div class="info">
+    <strong>Writing mode guidance:</strong> Professional and Government / technical modes use more thorough proofreading settings. They do not automatically verify technical facts, legal compliance, engineering calculations, or agency-specific formats. Always review suggested changes.
+  </div>
+  <p class="note">Grammar checking is provided by <a href="https://languagetool.org" target="_blank" rel="noopener">LanguageTool</a>. The public service has usage limits. Do not enter confidential, personal, or sensitive information. This tool provides proofreading suggestions, not full AI rewriting or translation.</p>
+</section>
 </main>
-<footer>GrammarFix · Free English grammar checker</footer>
+<footer>GrammarFix · Free English proofreading assistant</footer>
 <script>
-const textBox = document.getElementById('text');
-const count = document.getElementById('count');
-const statusEl = document.getElementById('status');
-const result = document.getElementById('result');
-const correctedEl = document.getElementById('corrected');
-const issuesEl = document.getElementById('issues');
-let correctedText = '';
-
-textBox.addEventListener('input', () => {
-  count.textContent = `${textBox.value.length.toLocaleString()} / 20,000 characters`;
+const textBox=document.getElementById('text');
+const statusEl=document.getElementById('status');
+const result=document.getElementById('result');
+const correctedEl=document.getElementById('corrected');
+const issuesEl=document.getElementById('issues');
+let correctedText='';
+function updateStats(){
+  const value=textBox.value;
+  const words=value.trim()?value.trim().split(/\s+/).length:0;
+  const sentences=value.trim()?(value.match(/[.!?]+(?=\s|$)/g)||[]).length:0;
+  document.getElementById('words').textContent=`Words: ${words}`;
+  document.getElementById('chars').textContent=`Characters: ${value.length.toLocaleString()} / 20,000`;
+  document.getElementById('sentences').textContent=`Sentences: ${sentences}`;
+}
+textBox.addEventListener('input',updateStats);
+document.getElementById('clear').addEventListener('click',()=>{
+  textBox.value='';updateStats();result.style.display='none';statusEl.textContent='';textBox.focus();
 });
-document.getElementById('clear').addEventListener('click', () => {
-  textBox.value = '';
-  count.textContent = '0 / 20,000 characters';
-  result.style.display = 'none';
-  statusEl.textContent = '';
-  textBox.focus();
-});
-document.getElementById('check').addEventListener('click', async () => {
-  const text = textBox.value.trim();
-  if (!text) { statusEl.textContent = 'Please enter some text first.'; return; }
-  if (text.length > 20000) { statusEl.textContent = 'Text exceeds the 20,000-character limit.'; return; }
-
-  const button = document.getElementById('check');
-  button.disabled = true;
-  statusEl.textContent = 'Checking your text...';
-  result.style.display = 'none';
-
-  try {
-    const body = new URLSearchParams();
-    body.set('text', text);
-    body.set('language', document.getElementById('language').value);
-    body.set('level', 'picky');
-
-    const response = await fetch('https://api.languagetool.org/v2/check', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body
+document.getElementById('check').addEventListener('click',async()=>{
+  const text=textBox.value.trim();
+  if(!text){statusEl.textContent='Please enter some text first.';return;}
+  const button=document.getElementById('check');
+  button.disabled=true;statusEl.textContent='Checking your writing...';result.style.display='none';
+  try{
+    const body=new URLSearchParams();
+    body.set('text',text);
+    body.set('language',document.getElementById('language').value);
+    body.set('level','picky');
+    const response=await fetch('https://api.languagetool.org/v2/check',{
+      method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body
     });
-    if (!response.ok) throw new Error(`Service returned ${response.status}`);
-    const data = await response.json();
-    const matches = data.matches || [];
-
-    // Apply the first suggested replacement for each issue, from right to left.
-    correctedText = text;
-    [...matches].sort((a,b) => b.offset - a.offset).forEach(match => {
-      const replacement = match.replacements && match.replacements[0] && match.replacements[0].value;
-      if (replacement !== undefined) {
-        correctedText = correctedText.slice(0, match.offset) + replacement +
-          correctedText.slice(match.offset + match.length);
+    if(!response.ok)throw new Error(`Service returned ${response.status}`);
+    const data=await response.json();
+    const matches=data.matches||[];
+    correctedText=text;
+    [...matches].sort((a,b)=>b.offset-a.offset).forEach(match=>{
+      const replacement=match.replacements&&match.replacements[0]&&match.replacements[0].value;
+      if(replacement!==undefined){
+        correctedText=correctedText.slice(0,match.offset)+replacement+correctedText.slice(match.offset+match.length);
       }
     });
-
-    correctedEl.textContent = correctedText;
-    issuesEl.innerHTML = '';
-    if (!matches.length) {
-      issuesEl.textContent = 'No issues were detected. Your text may still benefit from a manual review.';
-    } else {
-      matches.forEach(match => {
-        const card = document.createElement('div');
-        card.className = 'issue';
-        const heading = document.createElement('strong');
-        heading.textContent = match.shortMessage || match.message || 'Possible issue';
-        const detail = document.createElement('p');
-        detail.textContent = match.message || '';
-        const context = document.createElement('p');
-        context.style.marginTop = '6px';
-        context.textContent = match.context ? `Context: ${match.context.text}` : '';
-        card.append(heading, detail, context);
-        (match.replacements || []).slice(0,3).forEach(item => {
-          const chip = document.createElement('span');
-          chip.className = 'suggestion';
-          chip.textContent = item.value;
-          card.appendChild(chip);
-        });
+    correctedEl.textContent=correctedText;
+    issuesEl.replaceChildren();
+    if(!matches.length){
+      issuesEl.textContent='No issues were detected. This does not guarantee that every sentence is correct; review the text for meaning and context.';
+    }else{
+      matches.forEach((match,index)=>{
+        const card=document.createElement('div');card.className='issue';
+        const heading=document.createElement('strong');
+        heading.textContent=`${index+1}. ${match.shortMessage||match.rule?.description||'Possible writing issue'}`;
+        const explanation=document.createElement('p');
+        explanation.textContent=match.message||'Review this passage.';
+        const context=document.createElement('p');
+        context.style.marginTop='7px';
+        context.textContent=match.context?`Text: “${match.context.text}”`:'';
+        card.append(heading,explanation,context);
+        const replacements=(match.replacements||[]).slice(0,4);
+        if(replacements.length){
+          const label=document.createElement('p');label.style.marginTop='8px';label.textContent='Suggested alternatives:';
+          card.appendChild(label);
+          replacements.forEach(item=>{
+            const chip=document.createElement('span');chip.className='suggestion';chip.textContent=item.value;card.appendChild(chip);
+          });
+        }
         issuesEl.appendChild(card);
       });
     }
-    result.style.display = 'block';
-    statusEl.textContent = matches.length ? `${matches.length} possible issue(s) found.` : 'Check complete.';
-  } catch (error) {
-    statusEl.textContent = 'Unable to check text right now. Please try again later.';
+    result.style.display='block';
+    statusEl.textContent=matches.length?`${matches.length} possible issue(s) found.`:'Check complete.';
+  }catch(error){
+    statusEl.textContent='Unable to check right now. Please try again later.';
     console.error(error);
-  } finally {
-    button.disabled = false;
-  }
+  }finally{button.disabled=false;}
 });
-document.getElementById('copy').addEventListener('click', async () => {
-  try {
-    await navigator.clipboard.writeText(correctedText);
-    statusEl.textContent = 'Corrected text copied.';
-  } catch {
-    statusEl.textContent = 'Copy was blocked by your browser. Select the corrected text and copy it manually.';
-  }
+document.getElementById('copy').addEventListener('click',async()=>{
+  try{await navigator.clipboard.writeText(correctedText);statusEl.textContent='Corrected text copied.';}
+  catch{statusEl.textContent='Copy was blocked by your browser. Select and copy the corrected text manually.';}
 });
-document.getElementById('replace').addEventListener('click', () => {
-  textBox.value = correctedText;
-  count.textContent = `${textBox.value.length.toLocaleString()} / 20,000 characters`;
-  statusEl.textContent = 'The corrected text is now in the editor.';
+document.getElementById('replace').addEventListener('click',()=>{
+  textBox.value=correctedText;updateStats();statusEl.textContent='Corrected text is now in the editor.';
 });
+document.getElementById('download').addEventListener('click',()=>{
+  const blob=new Blob([correctedText],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);const link=document.createElement('a');
+  link.href=url;link.download='grammarfix-corrected-text.txt';link.click();URL.revokeObjectURL(url);
+  statusEl.textContent='Text download started.';
+});
+updateStats();
 </script>
 </body>
 </html>
